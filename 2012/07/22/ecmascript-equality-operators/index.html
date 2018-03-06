@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Ecmascript," />
 
 
 
@@ -79,13 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Melo&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="在这篇文章中将阐述一些等运算符的技术特点。 众所周知，在ECMAScript中‘等于’是不可传递的。 不可传递的等号就像当于：  A == B B==C  在有些情况下这并不代表：  A==C  举个例子 12345console.log(  &apos;0&apos;== 0, // true   0  == &apos;&apos;,   // true  &apos;0&apos;== &apos;&apos;// false); 再来一个： 12345678var a">
+<meta name="keywords" content="Ecmascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】等运算符">
+<meta property="og:url" content="http://yoursite.com/2012/07/22/ecmascript-equality-operators/index.html">
 <meta property="og:site_name" content="Melo&#39;s Blog">
+<meta property="og:description" content="在这篇文章中将阐述一些等运算符的技术特点。 众所周知，在ECMAScript中‘等于’是不可传递的。 不可传递的等号就像当于：  A == B B==C  在有些情况下这并不代表：  A==C  举个例子 12345console.log(  &apos;0&apos;== 0, // true   0  == &apos;&apos;,   // true  &apos;0&apos;== &apos;&apos;// false); 再来一个： 12345678var a">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-14T12:34:29.464Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Melo&#39;s Blog">
+<meta name="twitter:title" content="【译】等运算符">
+<meta name="twitter:description" content="在这篇文章中将阐述一些等运算符的技术特点。 众所周知，在ECMAScript中‘等于’是不可传递的。 不可传递的等号就像当于：  A == B B==C  在有些情况下这并不代表：  A==C  举个例子 12345console.log(  &apos;0&apos;== 0, // true   0  == &apos;&apos;,   // true  &apos;0&apos;== &apos;&apos;// false); 再来一个： 12345678var a">
 
 
 
@@ -115,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2012/07/22/ecmascript-equality-operators/"/>
 
 
 
 
 
-  <title>Melo's Blog</title>
+  <title>【译】等运算符 | Melo's Blog</title>
   
 
 
@@ -140,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,140 +218,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/07/14/cross-domain-host/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Tang Heng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Melo's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2013/07/14/cross-domain-host/" itemprop="url">跨域post请求</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-07-14T20:38:35+08:00">
-                2013-07-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这是很久以前遇到的问题，还是在上一家公司的时候，在为实现某一个业务场景时想到的一个办法。之前也看了不少相关的文章，目前来看，跨域的主流做法都是jsonp请求，原理就是动态插入一个script标签，依靠script标签的src来实现跨域请求。但这样的做法都是get请求，如果需要post请求的话，这个方法就行不通了。即便现代浏览器有原生支持的postMessage API但由于要兼容IE6,7，于是考虑用其他方法实现跨域的post请求:</p>
-<ol>
-<li><p>原理先是在当前域下创建一个iframe，指向需要跨域的那个域名，然后完成表单提交。</p>
-</li>
-<li><p>将提交后的返回信息保存在window.name属性里面（支持2M的数据量）。</p>
-</li>
-<li><p>再改变这个iframe的location到当前域下，获得window.name即可。</p>
-</li>
-</ol>
-<p>主要代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个iframe</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ifr = <span class="built_in">document</span>.createElement(<span class="string">'iframe'</span>);</span><br><span class="line"></span><br><span class="line">ifr.style.display = <span class="string">'none'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> onloadFn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> ifrDom = ifr.contentWindow.document;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建post提交的表单</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> postForm = ifrDom.createElement(<span class="string">'form'</span>);</span><br><span class="line"></span><br><span class="line">    postForm.method = <span class="string">'post'</span>;</span><br><span class="line"></span><br><span class="line">    postForm.action = <span class="string">'http://a.example.com/'</span>;</span><br><span class="line"></span><br><span class="line">    ifrDom.documentElement.appendChild(postForm);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建表单中的元素</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> sourceIdElem = ifrDom.createElement(<span class="string">'input'</span>);</span><br><span class="line"></span><br><span class="line">    sourceIdElem.type = <span class="string">'hidden'</span>;</span><br><span class="line"></span><br><span class="line">    sourceIdElem.name = <span class="string">'info'</span>;</span><br><span class="line"></span><br><span class="line">    sourceIdElem.value = <span class="string">'2'</span>;</span><br><span class="line"></span><br><span class="line">    postForm.appendChild(sourceIdElem);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//去除原先的onload方法，防止表单提交以后再一次触发原先的onload事件</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(ifr.detachEvent)&#123;</span><br><span class="line"></span><br><span class="line">        ifr.detachEvent(<span class="string">'onload'</span>,onloadFn);</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">        ifr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//绑定表单提交后返回页面的onload事件</span></span><br><span class="line"></span><br><span class="line">    ifr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//再次重新绑定onload的原因是防止我们在替换location时又去执行旧的onload事件</span></span><br><span class="line"></span><br><span class="line">        ifr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> timer,res;</span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">polling</span>(<span class="params"></span>)</span>&#123;<span class="comment">//轮询</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">                    res =  ifr.contentWindow.name;</span><br><span class="line"></span><br><span class="line">                &#125;<span class="keyword">catch</span>(ex)&#123;&#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span>(!res)&#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">                     clearInterval(timer);</span><br><span class="line"></span><br><span class="line">                     <span class="comment">//获得结果</span></span><br><span class="line"></span><br><span class="line">                     <span class="built_in">console</span>.log(res);</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            timer = setInterval(polling, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ifr.contentWindow.location.replace(<span class="string">'about:blank'</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    postForm.submit();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(ifr.attachEvent)&#123;</span><br><span class="line"></span><br><span class="line">    ifr.attachEvent(<span class="string">"onload"</span>, onloadFn);</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">    ifr.onload = onloadFn;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.appendChild(ifr);</span><br></pre></td></tr></table></figure>
-<p>在服务端接收post请求以后，在返回的页面中需要将结果赋值给window.name。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
 
   
 
@@ -377,9 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2012/07/22/ecmascript-equality-operators/" itemprop="url">【译】等运算符</a></h1>
+          <h1 class="post-title" itemprop="name headline">【译】等运算符</h1>
         
 
         <div class="post-meta">
@@ -429,9 +300,7 @@
       
 
       
-        
-          
-            <p>在这篇文章中将阐述一些等运算符的技术特点。</p>
+        <p>在这篇文章中将阐述一些等运算符的技术特点。</p>
 <p>众所周知，在ECMAScript中‘等于’是不可传递的。</p>
 <h3 id="不可传递的等号"><a href="#不可传递的等号" class="headerlink" title="不可传递的等号"></a>不可传递的等号</h3><p>就像当于：</p>
 <blockquote>
@@ -488,8 +357,6 @@
 <p>当然了，一个系统的正常运行才是更关键的。所以，就像刚才说的，当你不确定一些操作或是函数的返回类型、但又不得不去考虑他们的时候，使用‘===’吧。客观的讲，我们可以想象一个程序员在某些情况下会不记得一些完全安全的‘==’用法比如typeof，所以他可能就选择‘===’来当做唯一的比较相等的操作符，这样就不用被‘==’的那些狗血尿性所扰，而专注于其他更重要的事情上去。</p>
 <p>原文：<a href="http://dmitrysoshnikov.com/notes/note-2-ecmascript-equality-operators/" target="_blank" rel="noopener">http://dmitrysoshnikov.com/notes/note-2-ecmascript-equality-operators/</a></p>
 
-          
-        
       
     </div>
     
@@ -504,150 +371,40 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/07/09/null-and-undefined/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Tang Heng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Melo's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2012/07/09/null-and-undefined/" itemprop="url">null&undefined</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-07-09T19:47:26+08:00">
-                2012-07-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/Ecmascript/" rel="tag"># Ecmascript</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>ECMA-262中的定义</p>
-<blockquote>
-<h3 id="Undefined"><a href="#Undefined" class="headerlink" title="Undefined"></a>Undefined</h3><p>The Undefined type has exactly one value, called undefined. Any variable that has not been assigned a value has the value undefined</p>
-<h3 id="Null"><a href="#Null" class="headerlink" title="Null"></a>Null</h3><p>The Null type has exactly one value, called null.</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"></span><br><span class="line">alert(a);<span class="comment">//undefined</span></span><br><span class="line"></span><br><span class="line">alert(<span class="keyword">typeof</span> a);<span class="comment">//undefined</span></span><br><span class="line"></span><br><span class="line">alert(<span class="keyword">typeof</span> b);<span class="comment">//undefined</span></span><br><span class="line"></span><br><span class="line">alert(<span class="keyword">typeof</span> <span class="literal">undefined</span>);<span class="comment">//undefined</span></span><br><span class="line"></span><br><span class="line">alert(<span class="keyword">typeof</span> <span class="literal">null</span>);<span class="comment">//object 被认为是对象的占位符</span></span><br><span class="line"></span><br><span class="line">alert(<span class="literal">null</span> == <span class="literal">undefined</span>);<span class="comment">//true EcmaScript中认为他们是相等的。</span></span><br></pre></td></tr></table></figure>
-<h3 id="关于undefined"><a href="#关于undefined" class="headerlink" title="关于undefined"></a>关于undefined</h3><ul>
-<li><p>声明过变量在被赋值之前的默认值是undefined。</p>
-</li>
-<li><p>它是window的一个属性，alert(‘undefined’ in window);//true。</p>
-</li>
-<li><p>可以在局部作用域中定义一个undefined达到优化目的。</p>
-</li>
-<li><p>函数未指明返回值（无return），也是undefined。</p>
-</li>
-</ul>
-<h3 id="关于null"><a href="#关于null" class="headerlink" title="关于null"></a>关于null</h3><p>The null value is a primitive value that represents the null, empty, or non-existent reference.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/07/09/null-and-undefined/" rel="next" title="null&undefined">
+                <i class="fa fa-chevron-left"></i> null&undefined
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/07/14/cross-domain-host/" rel="prev" title="跨域post请求">
+                跨域post请求 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
       
     </footer>
   </div>
@@ -657,10 +414,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -668,6 +426,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -688,8 +450,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -740,6 +511,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#不可传递的等号"><span class="nav-number">1.</span> <span class="nav-text">不可传递的等号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#toNumber是‘-’的强制转换"><span class="nav-number">2.</span> <span class="nav-text">toNumber是‘==’的强制转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Not-ToBoolean-but-still-ToNumber"><span class="nav-number">3.</span> <span class="nav-text">Not ToBoolean but still ToNumber</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean-false-object-is-true"><span class="nav-number">4.</span> <span class="nav-text">Boolean false object is true</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动类型强制转换"><span class="nav-number">5.</span> <span class="nav-text">手动类型强制转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总是显式的使用‘-’"><span class="nav-number">6.</span> <span class="nav-text">总是显式的使用‘===’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#‘-’的安全使用情况"><span class="nav-number">7.</span> <span class="nav-text">‘==’的安全使用情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -873,6 +660,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
