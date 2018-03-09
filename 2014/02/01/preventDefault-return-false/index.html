@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="ECMAScript," />
+  <meta name="keywords" content="事件," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="ECMA-262中的定义  UndefinedThe Undefined type has exactly one value, called undefined. Any variable that has not been assigned a value has the value undefined NullThe Null type has exactly one value, call">
-<meta name="keywords" content="ECMAScript">
+<meta name="description" content="代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用event.preventDefault()，但在jQuery的事件体系下又可以使用return false，这两者到底有啥区别呢？ 先看验证过后的结论：preventDefault在任何情况下就是阻止默认事件 而return false分情况在jQuery的事件机制下，return false既cancel bubble又preve">
+<meta name="keywords" content="事件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="null&amp;undefined">
-<meta property="og:url" content="http://yoursite.com/2012/07/09/null-and-undefined/index.html">
+<meta property="og:title" content="事件中的preventDefault和return false">
+<meta property="og:url" content="http://yoursite.com/2014/02/01/preventDefault-return-false/index.html">
 <meta property="og:site_name" content="Melo&#39;s Blog">
-<meta property="og:description" content="ECMA-262中的定义  UndefinedThe Undefined type has exactly one value, called undefined. Any variable that has not been assigned a value has the value undefined NullThe Null type has exactly one value, call">
+<meta property="og:description" content="代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用event.preventDefault()，但在jQuery的事件体系下又可以使用return false，这两者到底有啥区别呢？ 先看验证过后的结论：preventDefault在任何情况下就是阻止默认事件 而return false分情况在jQuery的事件机制下，return false既cancel bubble又preve">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-09T06:59:29.482Z">
+<meta property="og:updated_time" content="2018-03-09T06:51:52.914Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="null&amp;undefined">
-<meta name="twitter:description" content="ECMA-262中的定义  UndefinedThe Undefined type has exactly one value, called undefined. Any variable that has not been assigned a value has the value undefined NullThe Null type has exactly one value, call">
+<meta name="twitter:title" content="事件中的preventDefault和return false">
+<meta name="twitter:description" content="代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用event.preventDefault()，但在jQuery的事件体系下又可以使用return false，这两者到底有啥区别呢？ 先看验证过后的结论：preventDefault在任何情况下就是阻止默认事件 而return false分情况在jQuery的事件机制下，return false既cancel bubble又preve">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2012/07/09/null-and-undefined/"/>
+  <link rel="canonical" href="http://yoursite.com/2014/02/01/preventDefault-return-false/"/>
 
 
 
 
 
-  <title>null&undefined | Melo's Blog</title>
+  <title>事件中的preventDefault和return false | Melo's Blog</title>
   
 
 
@@ -233,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/07/09/null-and-undefined/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2014/02/01/preventDefault-return-false/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Tang Heng">
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">null&undefined</h1>
+          <h1 class="post-title" itemprop="name headline">事件中的preventDefault和return false</h1>
         
 
         <div class="post-meta">
@@ -262,8 +262,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-07-09T19:47:26+08:00">
-                2012-07-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-02-01T13:42:59+08:00">
+                2014-02-01
               </time>
             
 
@@ -300,23 +300,21 @@
       
 
       
-        <p>ECMA-262中的定义</p>
-<blockquote>
-<h3 id="Undefined"><a href="#Undefined" class="headerlink" title="Undefined"></a>Undefined</h3><p>The Undefined type has exactly one value, called undefined. Any variable that has not been assigned a value has the value undefined</p>
-<h3 id="Null"><a href="#Null" class="headerlink" title="Null"></a>Null</h3><p>The Null type has exactly one value, called null.</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"></span><br><span class="line">alert(a);<span class="comment">//undefined</span></span><br><span class="line"></span><br><span class="line">alert(<span class="keyword">typeof</span> a);<span class="comment">//undefined</span></span><br><span class="line"></span><br><span class="line">alert(<span class="keyword">typeof</span> b);<span class="comment">//undefined</span></span><br><span class="line"></span><br><span class="line">alert(<span class="keyword">typeof</span> <span class="literal">undefined</span>);<span class="comment">//undefined</span></span><br><span class="line"></span><br><span class="line">alert(<span class="keyword">typeof</span> <span class="literal">null</span>);<span class="comment">//object 被认为是对象的占位符</span></span><br><span class="line"></span><br><span class="line">alert(<span class="literal">null</span> == <span class="literal">undefined</span>);<span class="comment">//true EcmaScript中认为他们是相等的。</span></span><br></pre></td></tr></table></figure>
-<h3 id="关于undefined"><a href="#关于undefined" class="headerlink" title="关于undefined"></a>关于undefined</h3><ul>
-<li><p>声明过变量在被赋值之前的默认值是undefined。</p>
+        <p>代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用<code>event.preventDefault()</code>，但在jQuery的事件体系下又可以使用<code>return false</code>，这两者到底有啥区别呢？</p>
+<p>先看验证过后的结论：<br><strong>preventDefault在任何情况下就是阻止默认事件</strong></p>
+<p>而return false分情况<br><strong>在jQuery的事件机制下，return false既cancel bubble又preventDefault</strong></p>
+<p>在非jQuery的事件机制下，</p>
+<ul>
+<li><p>DOM0<br>onlick：return false仅可以preventDefault</p>
 </li>
-<li><p>它是window的一个属性，alert(‘undefined’ in window);//true。</p>
-</li>
-<li><p>可以在局部作用域中定义一个undefined达到优化目的。</p>
-</li>
-<li><p>函数未指明返回值（无return），也是undefined。</p>
+<li><p>DOM2<br>attachEvent: return false仅可以preventDefault<br>addEventListener: return false没有任何效果</p>
 </li>
 </ul>
-<h3 id="关于null"><a href="#关于null" class="headerlink" title="关于null"></a>关于null</h3><p>The null value is a primitive value that represents the null, empty, or non-existent reference.</p>
+<p>下面是验证，先定义一个嵌套的盒子<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"outer"</span>&gt;</span></span><br><span class="line">  outer</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span></span><br><span class="line">    inner</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"subInner"</span> <span class="attr">id</span>=<span class="string">"subInner"</span>&gt;</span></span><br><span class="line">      subInner</span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com/"</span> <span class="attr">target</span>=<span class="string">"_blank"</span> <span class="attr">id</span>=<span class="string">"link"</span>&gt;</span>baidu<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  $(<span class="string">'.outer'</span>).bind(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">'outer'</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  $(<span class="string">'.inner'</span>).bind(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">'inner'</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">var</span> link = <span class="built_in">document</span>.getElementById(<span class="string">'link'</span>);</span><br><span class="line">  <span class="comment">// DOM2级别的绑定</span></span><br><span class="line">  link.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">'link'</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// 先后alert出'link', 'inner', 'outer'，随后打开新网页，即没有任何效果</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DOM0级别的绑定</span></span><br><span class="line">link.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  alert(<span class="string">'link'</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// a链接不跳转，阻止了默认行为，但不阻止冒泡</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// jQuery事件下</span></span><br><span class="line">$(<span class="string">'#link'</span>).bind(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">  alert(<span class="string">'link'</span>);</span><br><span class="line">  e.preventDefault(); <span class="comment">// 阻止默认事件，但事件继续冒泡，a标签不跳转</span></span><br><span class="line">  <span class="comment">// return false; 既阻止默认事件又阻断事件冒泡</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>具体代码<a href="http://jsfiddle.net/meloonly/Eh6Yc/13/" target="_blank" rel="noopener">http://jsfiddle.net/meloonly/Eh6Yc/13/</a></p>
 
       
     </div>
@@ -334,7 +332,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ECMAScript/" rel="tag"># ECMAScript</a>
+            <a href="/tags/事件/" rel="tag"># 事件</a>
           
         </div>
       
@@ -347,14 +345,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2013/09/09/encoding-trouble/" rel="next" title="那些被编码坑过的往事">
+                <i class="fa fa-chevron-left"></i> 那些被编码坑过的往事
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2012/07/22/ecmascript-equality-operators/" rel="prev" title="【译】等运算符">
-                【译】等运算符 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/31/css-loader-bug-IE9/" rel="prev" title="css-loader压缩合并生成的css文件在IE9下部分失效">
+                css-loader压缩合并生成的css文件在IE9下部分失效 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -407,17 +409,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -468,22 +461,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Undefined"><span class="nav-number">1.</span> <span class="nav-text">Undefined</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Null"><span class="nav-number">2.</span> <span class="nav-text">Null</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于undefined"><span class="nav-number">3.</span> <span class="nav-text">关于undefined</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于null"><span class="nav-number">4.</span> <span class="nav-text">关于null</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

@@ -229,6 +229,418 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/31/css-loader-bug-IE9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang Heng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Melo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/31/css-loader-bug-IE9/" itemprop="url">css-loader压缩合并生成的css文件在IE9下部分失效</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-31T15:05:15+08:00">
+                2017-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>问题描述</p>
+<p>最近在IE9中发现部分样式有错乱，用开发者工具一看，居然无法看到元素原本应有的样式，这说明没有应用到css中的样式，很无语啊。</p>
+<p>一番查阅之后问题分析</p>
+<p>经过调查，原生的IE9对css的解析有如下限制：</p>
+<ol>
+<li>单个css文件不能超过4095个选择器</li>
+<li>单个文件可以@import最多31个额外css文件</li>
+<li>@import支持最多嵌套4层引用</li>
+<li>单个css文件大小不超过288kb</li>
+</ol>
+<p>来源：</p>
+<p><a href="https://blogs.msdn.microsoft.com/ieinternals/2011/05/14/stylesheet-limits-in-internet-explorer/" target="_blank" rel="noopener">https://blogs.msdn.microsoft.com/ieinternals/2011/05/14/stylesheet-limits-in-internet-explorer/</a></p>
+<blockquote>
+<p>KB 262161 outlines the maximum number of stylesheets and rules supported by Internet Explorer 6 to 9.</p>
+<ul>
+<li>A sheet may contain up to 4095 rules</li>
+<li>A sheet may @import up to 31 sheets</li>
+<li>@import nesting supports up to 4 levels deep</li>
+</ul>
+<p>Some folks have wondered about the math that underlies these numbers. The root of the limitations is that Internet Explorer uses a 32bit integer to &gt;identify, sort, and apply the cascading rules. The integer’s 32bits are split into five fields: four sheetIDs of 5 bits each, and one 12bit ruleID. The 5 &gt;bit sheetIDs results in the 31 @import limit, and the 12 bit ruleID results in the 4095 rules-per-sheet limitation. While these limits are entirely &gt;sufficient for most sites, there are some sites (particularly when using frameworks and controls) that can encounter the limits, requiring workarounds.</p>
+</blockquote>
+<p>这里遇到了第一个限制，webpack中css-loader打包生成的common.css达到了300kb，选择器数量超过了4095个，所以导致在IE9中，部分样式的错乱，用开发者工具查无法看到元素原本应有的样式。</p>
+<p>解决方案：</p>
+<p>引入css-split-webpack-plugin插件，在webpack打包的时候应用这个插件，将超过限制的common.css分割成common-1.css和common-2.css。<br><a href="https://www.npmjs.com/package/css-split-webpack-plugin" target="_blank" rel="noopener">https://www.npmjs.com/package/css-split-webpack-plugin</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> CSSSplitWebpackPlugin = <span class="built_in">require</span>(<span class="string">'css-split-webpack-plugin'</span>)</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> CSSSplitWebpackPlugin(&#123;<span class="attr">size</span>: <span class="number">4000</span>&#125;) <span class="comment">//这里的4000代表一个css文件中的css规则上限</span></span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>参考资料：<br><a href="https://stackoverflow.com/questions/9906794/internet-explorers-css-rules-limits" target="_blank" rel="noopener">https://stackoverflow.com/questions/9906794/internet-explorers-css-rules-limits</a><br><a href="http://joshua.perina.com/africa/gambia/fajara/post/internet-explorer-css-file-size-limit" target="_blank" rel="noopener">http://joshua.perina.com/africa/gambia/fajara/post/internet-explorer-css-file-size-limit</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2014/02/01/preventDefault-return-false/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang Heng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Melo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014/02/01/preventDefault-return-false/" itemprop="url">事件中的preventDefault和return false</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-02-01T13:42:59+08:00">
+                2014-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用<code>event.preventDefault()</code>，但在jQuery的事件体系下又可以使用<code>return false</code>，这两者到底有啥区别呢？</p>
+<p>先看验证过后的结论：<br><strong>preventDefault在任何情况下就是阻止默认事件</strong></p>
+<p>而return false分情况<br><strong>在jQuery的事件机制下，return false既cancel bubble又preventDefault</strong></p>
+<p>在非jQuery的事件机制下，</p>
+<ul>
+<li><p>DOM0<br>onlick：return false仅可以preventDefault</p>
+</li>
+<li><p>DOM2<br>attachEvent: return false仅可以preventDefault<br>addEventListener: return false没有任何效果</p>
+</li>
+</ul>
+<p>下面是验证，先定义一个嵌套的盒子<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"outer"</span>&gt;</span></span><br><span class="line">  outer</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span></span><br><span class="line">    inner</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"subInner"</span> <span class="attr">id</span>=<span class="string">"subInner"</span>&gt;</span></span><br><span class="line">      subInner</span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com/"</span> <span class="attr">target</span>=<span class="string">"_blank"</span> <span class="attr">id</span>=<span class="string">"link"</span>&gt;</span>baidu<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  $(<span class="string">'.outer'</span>).bind(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">'outer'</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  $(<span class="string">'.inner'</span>).bind(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">'inner'</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">var</span> link = <span class="built_in">document</span>.getElementById(<span class="string">'link'</span>);</span><br><span class="line">  <span class="comment">// DOM2级别的绑定</span></span><br><span class="line">  link.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">'link'</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// 先后alert出'link', 'inner', 'outer'，随后打开新网页，即没有任何效果</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DOM0级别的绑定</span></span><br><span class="line">link.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  alert(<span class="string">'link'</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// a链接不跳转，阻止了默认行为，但不阻止冒泡</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// jQuery事件下</span></span><br><span class="line">$(<span class="string">'#link'</span>).bind(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">  alert(<span class="string">'link'</span>);</span><br><span class="line">  e.preventDefault(); <span class="comment">// 阻止默认事件，但事件继续冒泡，a标签不跳转</span></span><br><span class="line">  <span class="comment">// return false; 既阻止默认事件又阻断事件冒泡</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>具体代码<a href="http://jsfiddle.net/meloonly/Eh6Yc/13/" target="_blank" rel="noopener">http://jsfiddle.net/meloonly/Eh6Yc/13/</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/09/09/encoding-trouble/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang Heng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Melo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2013/09/09/encoding-trouble/" itemprop="url">那些被编码坑过的往事</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-09-09T13:06:52+08:00">
+                2013-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>写在最前面，最简洁地描述编码和解码</p>
+<blockquote>
+<p>编码：字符char[]-&gt;二进制byte[]（按照某种编码规则）<br>解码：二进制byte[]-&gt;字符char[]（按照某种编码规则）</p>
+</blockquote>
+<p>最近一次操作失误导致网站提交乱码，研究了一下资料，直接原因是新增加的那个过滤器放置在了<code>CharacterEncodingFilter</code>之前了。也就是未执行<code>request.setCharacterEncoding</code>之前，去获取了request的parameter，而这个操作导致了网站post提交的数据没有按照指定的编码格式解码。<br>查看了servlet api里对HttpServletRequest setCharacterEncoding的解释：</p>
+<blockquote>
+<p>Overrides the name of the character encoding used in the body of this request. This method must be called prior to reading request parameters or reading input using getReader().</p>
+</blockquote>
+<p>意思就是说：</p>
+<ul>
+<li>这个方法首先只对请求体里面的数据有效果，故对get方式提交的数据没有作用。</li>
+<li>其次这个方法必须在读取请求参数之前调用。</li>
+</ul>
+<p>而我之前的步骤是在此方法执行之前就获取了参数，此时请求里的参数已经被WEB容器的默认编码decode完了，之后再到那个过滤器指定编码已经无效果，于是就导致了乱码。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/07/14/cross-domain-host/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -312,6 +724,143 @@
 <p>主要代码：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个iframe</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ifr = <span class="built_in">document</span>.createElement(<span class="string">'iframe'</span>);</span><br><span class="line"></span><br><span class="line">ifr.style.display = <span class="string">'none'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> onloadFn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> ifrDom = ifr.contentWindow.document;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建post提交的表单</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> postForm = ifrDom.createElement(<span class="string">'form'</span>);</span><br><span class="line"></span><br><span class="line">    postForm.method = <span class="string">'post'</span>;</span><br><span class="line"></span><br><span class="line">    postForm.action = <span class="string">'http://a.example.com/'</span>;</span><br><span class="line"></span><br><span class="line">    ifrDom.documentElement.appendChild(postForm);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建表单中的元素</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> sourceIdElem = ifrDom.createElement(<span class="string">'input'</span>);</span><br><span class="line"></span><br><span class="line">    sourceIdElem.type = <span class="string">'hidden'</span>;</span><br><span class="line"></span><br><span class="line">    sourceIdElem.name = <span class="string">'info'</span>;</span><br><span class="line"></span><br><span class="line">    sourceIdElem.value = <span class="string">'2'</span>;</span><br><span class="line"></span><br><span class="line">    postForm.appendChild(sourceIdElem);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//去除原先的onload方法，防止表单提交以后再一次触发原先的onload事件</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(ifr.detachEvent)&#123;</span><br><span class="line"></span><br><span class="line">        ifr.detachEvent(<span class="string">'onload'</span>,onloadFn);</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">        ifr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//绑定表单提交后返回页面的onload事件</span></span><br><span class="line"></span><br><span class="line">    ifr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//再次重新绑定onload的原因是防止我们在替换location时又去执行旧的onload事件</span></span><br><span class="line"></span><br><span class="line">        ifr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> timer,res;</span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">polling</span>(<span class="params"></span>)</span>&#123;<span class="comment">//轮询</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">                    res =  ifr.contentWindow.name;</span><br><span class="line"></span><br><span class="line">                &#125;<span class="keyword">catch</span>(ex)&#123;&#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span>(!res)&#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">                     clearInterval(timer);</span><br><span class="line"></span><br><span class="line">                     <span class="comment">//获得结果</span></span><br><span class="line"></span><br><span class="line">                     <span class="built_in">console</span>.log(res);</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            timer = setInterval(polling, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ifr.contentWindow.location.replace(<span class="string">'about:blank'</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    postForm.submit();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(ifr.attachEvent)&#123;</span><br><span class="line"></span><br><span class="line">    ifr.attachEvent(<span class="string">"onload"</span>, onloadFn);</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">    ifr.onload = onloadFn;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.appendChild(ifr);</span><br></pre></td></tr></table></figure>
 <p>在服务端接收post请求以后，在返回的页面中需要将结果赋值给window.name。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/08/09/judge-function-array/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang Heng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Melo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2012/08/09/judge-function-array/" itemprop="url">如何判断一个值是否是函数、数组</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-08-09T20:56:09+08:00">
+                2012-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>如何判断一个值是否是函数、数组？<br>一行代码表示</p>
+<blockquote>
+<p>Object.prototype.toString.call(elem) === ‘[object Array]’或是’[object Function]’</p>
+</blockquote>
+<p>为什么呢？<br>在ECMA-262中对此方法做了如下解释</p>
+<blockquote>
+<p>Object.prototype.toString( ) When the toString method is called, the following steps are taken:</p>
+<ol>
+<li>Get the [[Class]] property of this object.</li>
+<li>Compute a string value by concatenating the three strings “[object “, Result (1), and “]”.</li>
+<li>Return Result (2)</li>
+</ol>
+</blockquote>
+<p>反正最后就是返回值和string去比较。</p>
+<blockquote>
+<p>ECMA-262中对Array的描述<br>new Array([ item0[, item1 [,…]]])<br>The [[Class]] property of the newly constructed object is set to “Array”.</p>
+</blockquote>
+<p>那就是返回’[object Array]’了。为什么不直接调用XX.toString()的原因在于这个方法可能会被改写，而在Object原型上的方法有相对最高的纯洁性，相信没人会对Object原型做手脚吧，这是自寻死路。</p>
 
           
         
@@ -704,7 +1253,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -717,7 +1266,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
