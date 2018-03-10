@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="写在最前面，最简洁地描述编码和解码  编码：字符char[]-&amp;gt;二进制byte[]（按照某种编码规则）解码：二进制byte[]-&amp;gt;字符char[]（按照某种编码规则）  最近一次操作失误导致网站提交乱码，研究了一下资料，直接原因是新增加的那个过滤器放置在了CharacterEncodingFilter之前了。也就是未执行request.setCharacterEncoding之前，去获">
+<meta name="description" content="写在最前面，最简洁地描述编码和解码  编码：字符char[]-&amp;gt;二进制byte[]（按照某种编码规则）解码：二进制byte[]-&amp;gt;字符char[]（按照某种编码规则）">
 <meta name="keywords" content="编码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="那些被编码坑过的往事">
 <meta property="og:url" content="http://yoursite.com/2013/09/09/encoding-trouble/index.html">
 <meta property="og:site_name" content="Melo&#39;s Blog">
-<meta property="og:description" content="写在最前面，最简洁地描述编码和解码  编码：字符char[]-&amp;gt;二进制byte[]（按照某种编码规则）解码：二进制byte[]-&amp;gt;字符char[]（按照某种编码规则）  最近一次操作失误导致网站提交乱码，研究了一下资料，直接原因是新增加的那个过滤器放置在了CharacterEncodingFilter之前了。也就是未执行request.setCharacterEncoding之前，去获">
+<meta property="og:description" content="写在最前面，最简洁地描述编码和解码  编码：字符char[]-&amp;gt;二进制byte[]（按照某种编码规则）解码：二进制byte[]-&amp;gt;字符char[]（按照某种编码规则）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-09T05:27:52.499Z">
+<meta property="og:updated_time" content="2018-03-10T16:42:37.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="那些被编码坑过的往事">
-<meta name="twitter:description" content="写在最前面，最简洁地描述编码和解码  编码：字符char[]-&amp;gt;二进制byte[]（按照某种编码规则）解码：二进制byte[]-&amp;gt;字符char[]（按照某种编码规则）  最近一次操作失误导致网站提交乱码，研究了一下资料，直接原因是新增加的那个过滤器放置在了CharacterEncodingFilter之前了。也就是未执行request.setCharacterEncoding之前，去获">
+<meta name="twitter:description" content="写在最前面，最简洁地描述编码和解码  编码：字符char[]-&amp;gt;二进制byte[]（按照某种编码规则）解码：二进制byte[]-&amp;gt;字符char[]（按照某种编码规则）">
 
 
 
@@ -187,6 +187,16 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
           </a>
         </li>
       
@@ -304,6 +314,7 @@
 <blockquote>
 <p>编码：字符char[]-&gt;二进制byte[]（按照某种编码规则）<br>解码：二进制byte[]-&gt;字符char[]（按照某种编码规则）</p>
 </blockquote>
+<a id="more"></a>
 <p>最近一次操作失误导致网站提交乱码，研究了一下资料，直接原因是新增加的那个过滤器放置在了<code>CharacterEncodingFilter</code>之前了。也就是未执行<code>request.setCharacterEncoding</code>之前，去获取了request的parameter，而这个操作导致了网站post提交的数据没有按照指定的编码格式解码。<br>查看了servlet api里对HttpServletRequest setCharacterEncoding的解释：</p>
 <blockquote>
 <p>Overrides the name of the character encoding used in the body of this request. This method must be called prior to reading request parameters or reading input using getReader().</p>
@@ -424,7 +435,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -436,10 +447,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">4</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 

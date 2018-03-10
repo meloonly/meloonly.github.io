@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用event.preventDefault()，但在jQuery的事件体系下又可以使用return false，这两者到底有啥区别呢？ 先看验证过后的结论：preventDefault在任何情况下就是阻止默认事件 而return false分情况在jQuery的事件机制下，return false既cancel bubble又preve">
+<meta name="description" content="代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用event.preventDefault()，但在jQuery的事件体系下又可以使用return false，这两者到底有啥区别呢？ 先看验证过后的结论：preventDefault在任何情况下就是阻止默认事件">
 <meta name="keywords" content="事件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="事件中的preventDefault和return false">
 <meta property="og:url" content="http://yoursite.com/2014/02/01/preventDefault-return-false/index.html">
 <meta property="og:site_name" content="Melo&#39;s Blog">
-<meta property="og:description" content="代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用event.preventDefault()，但在jQuery的事件体系下又可以使用return false，这两者到底有啥区别呢？ 先看验证过后的结论：preventDefault在任何情况下就是阻止默认事件 而return false分情况在jQuery的事件机制下，return false既cancel bubble又preve">
+<meta property="og:description" content="代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用event.preventDefault()，但在jQuery的事件体系下又可以使用return false，这两者到底有啥区别呢？ 先看验证过后的结论：preventDefault在任何情况下就是阻止默认事件">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-09T06:51:52.914Z">
+<meta property="og:updated_time" content="2018-03-10T16:43:31.034Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="事件中的preventDefault和return false">
-<meta name="twitter:description" content="代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用event.preventDefault()，但在jQuery的事件体系下又可以使用return false，这两者到底有啥区别呢？ 先看验证过后的结论：preventDefault在任何情况下就是阻止默认事件 而return false分情况在jQuery的事件机制下，return false既cancel bubble又preve">
+<meta name="twitter:description" content="代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用event.preventDefault()，但在jQuery的事件体系下又可以使用return false，这两者到底有啥区别呢？ 先看验证过后的结论：preventDefault在任何情况下就是阻止默认事件">
 
 
 
@@ -187,6 +187,16 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
           </a>
         </li>
       
@@ -302,6 +312,7 @@
       
         <p>代码中常常会遇到事件的处理问题，通常处理阻止默认事件的方法是调用<code>event.preventDefault()</code>，但在jQuery的事件体系下又可以使用<code>return false</code>，这两者到底有啥区别呢？</p>
 <p>先看验证过后的结论：<br><strong>preventDefault在任何情况下就是阻止默认事件</strong></p>
+<a id="more"></a>
 <p>而return false分情况<br><strong>在jQuery的事件机制下，return false既cancel bubble又preventDefault</strong></p>
 <p>在非jQuery的事件机制下，</p>
 <ul>
@@ -355,8 +366,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/07/31/css-loader-bug-IE9/" rel="prev" title="css-loader压缩合并生成的css文件在IE9下部分失效">
-                css-loader压缩合并生成的css文件在IE9下部分失效 <i class="fa fa-chevron-right"></i>
+              <a href="/2014/07/10/backbone-inherit/" rel="prev" title="backbone-inherit">
+                backbone-inherit <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -425,7 +436,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -437,10 +448,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">4</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 

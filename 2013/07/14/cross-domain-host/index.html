@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Melo&#39;s Blog">
 <meta property="og:description" content="这是很久以前遇到的问题，还是在上一家公司的时候，在为实现某一个业务场景时想到的一个办法。之前也看了不少相关的文章，目前来看，跨域的主流做法都是jsonp请求，原理就是动态插入一个script标签，依靠script标签的src来实现跨域请求。但这样的做法都是get请求，如果需要post请求的话，这个方法就行不通了。即便现代浏览器有原生支持的postMessage API但由于要兼容IE6,7，于是考">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-14T12:40:31.296Z">
+<meta property="og:updated_time" content="2018-03-10T16:42:11.768Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="跨域post请求">
 <meta name="twitter:description" content="这是很久以前遇到的问题，还是在上一家公司的时候，在为实现某一个业务场景时想到的一个办法。之前也看了不少相关的文章，目前来看，跨域的主流做法都是jsonp请求，原理就是动态插入一个script标签，依靠script标签的src来实现跨域请求。但这样的做法都是get请求，如果需要post请求的话，这个方法就行不通了。即便现代浏览器有原生支持的postMessage API但由于要兼容IE6,7，于是考">
@@ -187,6 +187,16 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
           </a>
         </li>
       
@@ -301,6 +311,7 @@
 
       
         <p>这是很久以前遇到的问题，还是在上一家公司的时候，在为实现某一个业务场景时想到的一个办法。之前也看了不少相关的文章，目前来看，跨域的主流做法都是jsonp请求，原理就是动态插入一个script标签，依靠script标签的src来实现跨域请求。但这样的做法都是get请求，如果需要post请求的话，这个方法就行不通了。即便现代浏览器有原生支持的postMessage API但由于要兼容IE6,7，于是考虑用其他方法实现跨域的post请求:</p>
+<a id="more"></a>
 <ol>
 <li><p>原理先是在当前域下创建一个iframe，指向需要跨域的那个域名，然后完成表单提交。</p>
 </li>
@@ -422,7 +433,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -434,10 +445,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">4</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 

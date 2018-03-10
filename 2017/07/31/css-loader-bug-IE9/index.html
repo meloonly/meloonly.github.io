@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="问题描述 最近在IE9中发现部分样式有错乱，用开发者工具一看，居然无法看到元素原本应有的样式，这说明没有应用到css中的样式，很无语啊。 一番查阅之后问题分析 经过调查，原生的IE9对css的解析有如下限制：  单个css文件不能超过4095个选择器 单个文件可以@import最多31个额外css文件 @import支持最多嵌套4层引用 单个css文件大小不超过288kb  来源： https:/">
+<meta name="description" content="问题描述 最近在IE9中发现部分样式有错乱，用开发者工具一看，居然无法看到元素原本应有的样式，这说明没有应用到css中的样式，很无语啊。 一番查阅之后问题分析 经过调查，原生的IE9对css的解析有如下限制：  单个css文件不能超过4095个选择器 单个文件可以@import最多31个额外css文件 @import支持最多嵌套4层引用 单个css文件大小不超过288kb">
 <meta name="keywords" content="工程实践">
 <meta property="og:type" content="article">
 <meta property="og:title" content="css-loader压缩合并生成的css文件在IE9下部分失效">
 <meta property="og:url" content="http://yoursite.com/2017/07/31/css-loader-bug-IE9/index.html">
 <meta property="og:site_name" content="Melo&#39;s Blog">
-<meta property="og:description" content="问题描述 最近在IE9中发现部分样式有错乱，用开发者工具一看，居然无法看到元素原本应有的样式，这说明没有应用到css中的样式，很无语啊。 一番查阅之后问题分析 经过调查，原生的IE9对css的解析有如下限制：  单个css文件不能超过4095个选择器 单个文件可以@import最多31个额外css文件 @import支持最多嵌套4层引用 单个css文件大小不超过288kb  来源： https:/">
+<meta property="og:description" content="问题描述 最近在IE9中发现部分样式有错乱，用开发者工具一看，居然无法看到元素原本应有的样式，这说明没有应用到css中的样式，很无语啊。 一番查阅之后问题分析 经过调查，原生的IE9对css的解析有如下限制：  单个css文件不能超过4095个选择器 单个文件可以@import最多31个额外css文件 @import支持最多嵌套4层引用 单个css文件大小不超过288kb">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-09T07:22:24.332Z">
+<meta property="og:updated_time" content="2018-03-10T16:42:19.825Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="css-loader压缩合并生成的css文件在IE9下部分失效">
-<meta name="twitter:description" content="问题描述 最近在IE9中发现部分样式有错乱，用开发者工具一看，居然无法看到元素原本应有的样式，这说明没有应用到css中的样式，很无语啊。 一番查阅之后问题分析 经过调查，原生的IE9对css的解析有如下限制：  单个css文件不能超过4095个选择器 单个文件可以@import最多31个额外css文件 @import支持最多嵌套4层引用 单个css文件大小不超过288kb  来源： https:/">
+<meta name="twitter:description" content="问题描述 最近在IE9中发现部分样式有错乱，用开发者工具一看，居然无法看到元素原本应有的样式，这说明没有应用到css中的样式，很无语啊。 一番查阅之后问题分析 经过调查，原生的IE9对css的解析有如下限制：  单个css文件不能超过4095个选择器 单个文件可以@import最多31个额外css文件 @import支持最多嵌套4层引用 单个css文件大小不超过288kb">
 
 
 
@@ -187,6 +187,16 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
           </a>
         </li>
       
@@ -310,6 +320,7 @@
 <li>@import支持最多嵌套4层引用</li>
 <li>单个css文件大小不超过288kb</li>
 </ol>
+<a id="more"></a>
 <p>来源：</p>
 <p><a href="https://blogs.msdn.microsoft.com/ieinternals/2011/05/14/stylesheet-limits-in-internet-explorer/" target="_blank" rel="noopener">https://blogs.msdn.microsoft.com/ieinternals/2011/05/14/stylesheet-limits-in-internet-explorer/</a></p>
 <blockquote>
@@ -356,8 +367,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/02/01/preventDefault-return-false/" rel="next" title="事件中的preventDefault和return false">
-                <i class="fa fa-chevron-left"></i> 事件中的preventDefault和return false
+              <a href="/2014/07/10/backbone-inherit/" rel="next" title="backbone-inherit">
+                <i class="fa fa-chevron-left"></i> backbone-inherit
               </a>
             
           </div>
@@ -365,6 +376,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/10/2013-annual-summary/" rel="prev" title="2013-annual-summary">
+                2013-annual-summary <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -432,7 +447,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -444,10 +459,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">4</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
